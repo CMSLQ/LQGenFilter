@@ -1,14 +1,12 @@
 import FWCore.ParameterSet.Config as cms
 
-source = cms.Source("EmptySource")
-
 from Configuration.GenProduction.PythiaUESettings_cfi import *
-generator = cms.EDFilter("Pythia6GeneratorFilter",
+source = cms.Source("PythiaSource",
     pythiaHepMCVerbosity = cms.untracked.bool(False),
     maxEventsToPrint = cms.untracked.int32(0),
     pythiaPylistVerbosity = cms.untracked.int32(0),
     filterEfficiency = cms.untracked.double(0.5),
-    comEnergy = cms.double(10000.0),
+    comEnergy = cms.untracked.double(10000.0),
     crossSection = cms.untracked.double(0.1121),
     PythiaParameters = cms.PSet(
         pythiaUESettingsBlock,
@@ -28,7 +26,7 @@ generator = cms.EDFilter("Pythia6GeneratorFilter",
 )
 
 munumujjFilter = cms.EDFilter("LQGenFilter",
-    src        = cms.untracked.InputTag("generator"),
+    src        = cms.untracked.InputTag("source"),
     eejj       = cms.bool(False),
     enuejj     = cms.bool(False),
     nuenuejj   = cms.bool(False),
@@ -39,8 +37,8 @@ munumujjFilter = cms.EDFilter("LQGenFilter",
 
 configurationMetadata = cms.untracked.PSet(
         version = cms.untracked.string('$Revision: 1.1 $'),
-        name = cms.untracked.string('$Source: $'),
+        name = cms.untracked.string('$Source: /cvs_server/repositories/CMSSW/UserCode/Leptoquarks/LQGenFilter/python/PYTHIA6_Exotica_LQ_cmu_500_10TeV_munumujjFilter_cff.py,v $'),
         annotation = cms.untracked.string('default documentation string for PYTHIA6_Exotica_LQ_cmu_500_10TeV_munumujjFilter_cff.py')
 )
 
-ProductionFilterSequence = cms.Sequence(generator*munumujjFilter)
+ProductionFilterSequence = cms.Sequence(munumujjFilter)
